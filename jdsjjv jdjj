@@ -1,0 +1,66 @@
+Synthesizing 2/10 solutions
+
+=======
+Suggestion 1
+
+        String logStreamName = "MyLogStream";
+
+        // Get the sequence token for the log stream
+        DescribeLogStreamsRequest describeLogStreamsRequest = new DescribeLogStreamsRequest()
+            .withLogGroupName(logGroupName)
+            .withLogStreamNamePrefix(logStreamName);
+
+        DescribeLogStreamsResult describeLogStreamsResult = client.describeLogStreams(describeLogStreamsRequest);
+        String sequenceToken = describeLogStreamsResult.getLogStreams().get(0).getUploadSequenceToken();
+
+        // Send a log message
+        InputLogEvent inputLogEvent = new InputLogEvent()
+            .withMessage("First message")
+            .withTimestamp(new Date().getTime());
+
+        PutLogEventsRequest putLogEventsRequest = new PutLogEventsRequest()
+            .withLogGroupName(logGroupName)
+            .withLogStreamName(logStreamName)
+            .withSequenceToken(sequenceToken)
+            .withLogEvents(inputLogEvent);
+
+        PutLogEventsResult putLogEventsResult = client.putLogEvents(putLogEventsRequest);
+        sequenceToken = putLogEventsResult.getNextSequenceToken();
+
+        // Get the events in the log stream
+
+=======
+Suggestion 2
+
+        String logStreamName = "MyLogStream";
+
+        // Get the sequence token for the stream. You will need to get
+        // a new sequence token if you want to write to the stream
+        // again after this.
+        DescribeLogStreamsRequest describeLogStreamsRequest = new DescribeLogStreamsRequest()
+            .withLogGroupName(logGroupName)
+            .withLogStreamNamePrefix(logStreamName);
+
+        DescribeLogStreamsResult describeLogStreamsResult = client.describeLogStreams(describeLogStreamsRequest);
+        String sequenceToken = describeLogStreamsResult.getLogStreams().get(0).getUploadSequenceToken();
+
+        // Put a log event
+        InputLogEvent inputLogEvent1 = new InputLogEvent()
+            .withMessage("event 1")
+            .withTimestamp(new Date().getTime());
+
+        InputLogEvent inputLogEvent2 = new InputLogEvent()
+            .withMessage("event 2")
+            .withTimestamp(new Date().getTime());
+
+        PutLogEventsRequest putLogEventsRequest = new PutLogEventsRequest()
+            .withLogGroupName(logGroupName)
+            .withLogStreamName(logStreamName)
+            .withSequenceToken(sequenceToken)
+            .withLogEvents(inputLogEvent1, inputLogEvent2);
+
+        PutLogEventsResult putLogEventsResult = client.putLogEvents(putLogEventsRequest);
+        sequenceToken = putLogEventsResult.getNextSequenceToken();
+
+        // Get the events in the log stream. You can provide an
+        // optional time range to filter the results on the server side.
