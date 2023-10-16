@@ -1,0 +1,559 @@
+Synthesizing 10/10 solutions
+
+=======
+Suggestion 1
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+import com.amazonaws.services.logs.AWSLogs;
+import com.amazonaws.services.logs.AWSLogsClientBuilder;
+import com.amazonaws.services.logs.model.*;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.regions.Region;
+import com.amazonaws.services.logs.model.InputLogEvent;
+import com.amazonaws.services.logs.model.OutputLogEvent;
+import com.amazonaws.services.logs.model.GetLogEventsRequest;
+import com.amazonaws.services.logs.model.GetLogEventsResult;
+import com.amazonaws.services.logs.model.ResourceNotFoundException;
+import com.amazonaws.services.logs.model.InvalidParameterException;
+import com.amazonaws.services.logs.model.InvalidSequenceTokenException;
+import com.amazonaws.services.logs.model.ServiceUnavailableException;
+import com.amazonaws.services.logs.model.DataAlreadyAcceptedException;
+import com.amazonaws.services.logs.model.OperationAbortedException;
+import com.amazonaws.services.logs.model.ResourceAlreadyExistsException;
+import com.amazonaws.services.logs.model.ResourceNotFoundException;
+import com.amazonaws.services.logs.model.ResourceAlreadyExistsException;
+import com.amazonaws.services.logs.model.ResourceNotFoundException;
+im
+
+=======
+Suggestion 2
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.regions.RegionUtils;
+import com.amazonaws.services.logs.AWSLogs;
+import com.amazonaws.services.logs.AWSLogsClient;
+import com.amazonaws.services.logs.model.FilterLogEventsRequest;
+import com.amazonaws.services.logs.model.FilterLogEventsResult;
+import com.amazonaws.services.logs.model.OutputLogEvent;
+
+public class mango {
+    private static final int DEFAULT_WAIT = 1000;
+    private static final int MAX_WAIT = 10000;
+
+    public static void main(String[] args) throws Exception {
+        AWSCredentialsProvider credentials = new ProfileCredentialsProvider();
+        AWSLogs client = new AWSLogsClient(credentials);
+        client.setRegion(RegionUtils.getRegion("us-east-1"));
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your search term: ");
+        String searchTerm = scanner.nextLine();
+        scanner.close();
+
+        FilterLogEventsRequest request = new FilterLogEventsRequest()
+            .withLogGroupName("/aws/lambda/lambda-function-name")
+            .withFilterPattern(searchTerm);
+
+        FilterLogEventsResult response = client.filterLogEvents(request);
+        List<OutputLogEvent> events = new ArrayList<>(response.getEvents());
+
+        while (response.getNextToken() != null) {
+            request.setNextToken(response.getNextToken());
+            response = client.filterLogEvents(request);
+            events.addAll(response.getEvents());
+        }
+
+        for (OutputLogEvent event : events) {
+            System.out.println(event.getMessage());
+        }
+    }
+}
+
+=======
+Suggestion 3
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Date;
+import java.util.Properties;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.TimeZone;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
+import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.nio.file.attribute.FileOwnerAttributeView;
+import java.nio.file.attribute.UserPrincipal;
+import java.nio.file.attribute.UserPrincipalLookupService;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
+import java.nio.file.FileSystems;
+import java.nio.file.FileSystem;
+import java.nio.file.spi.FileSystemProvider;
+import java.nio.file.FileStore;
+import java.nio.file.WatchService;
+import java.nio.file.WatchEvent;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchEvent.Kind;
+import java.nio.file.WatchEvent.Modifier;
+import java.nio.file.StandardWatchEventKinds;
+import java.nio.file.Watchable;
+import java.nio.file.LinkOption;
+import java.nio.file.StandardOpenOption;
+import java.nio.channels.FileChannel;
+import java.nio.channels.SeekableByteChannel;
+import java.nio.channels.Channels;
+import java.nio.channels.Channel;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
+import java.nio.channels.FileLock;
+import java.nio.file.DirectoryStream;
+import java.nio.file.DirectoryIteratorException;
+import java.nio.file.ClosedDirectoryStreamException;
+import java.nio.file.NotDirectoryException;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.InvalidPathException;
+import java.nio.file.AccessDeniedException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.FileSystemAlreadyExistsException;
+import java.nio.file.ProviderNotFoundException;
+import java.nio.file.ReadOnlyFileSystemException;
+import java.nio.file.ProviderMismatchException;
+import
+
+=======
+Suggestion 4
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.services.logs.AWSLogs;
+import com.amazonaws.services.logs.AWSLogsClient;
+import com.amazonaws.services.logs.model.FilterLogEventsRequest;
+import com.amazonaws.services.logs.model.FilterLogEventsResult;
+import com.amazonaws.services.logs.model.LogStream;
+
+public class mango {
+
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the search term");
+        String searchTerm = sc.nextLine();
+        AWSCredentials credentials = new ProfileCredentialsProvider().getCredentials();
+        AWSLogs client = new AWSLogsClient(credentials);
+        List<String> logStreamNames = new ArrayList<String>();
+        String nextToken = null;
+        do {
+            FilterLogEventsRequest req = new FilterLogEventsRequest()
+                    .withLogGroupName("/aws/lambda/lambda_function_name")
+                    .withLogStreamNames(logStreamNames).withFilterPattern(searchTerm).withNextToken(nextToken);
+            FilterLogEventsResult result = client.filterLogEvents(req);
+            nextToken = result.getNextToken();
+            List<LogStream> ls = result.getEvents();
+            for (LogStream logStream : ls) {
+                System.out.println(logStream.getMessage());
+            }
+        } while (nextToken != null);
+    }
+}
+
+=======
+Suggestion 5
+
+package com.amazonaws.samples;
+
+import java.util.List;
+
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.logs.AWSLogs;
+import com.amazonaws.services.logs.AWSLogsClientBuilder;
+import com.amazonaws.services.logs.model.DescribeLogStreamsResult;
+import com.amazonaws.services.logs.model.GetLogEventsRequest;
+import com.amazonaws.services.logs.model.GetLogEventsResult;
+import com.amazonaws.services.logs.model.OutputLogEvent;
+
+public class CloudWatchLogs {
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		AWSCredentials credentials = new BasicAWSCredentials(
+				"***********", "****************");
+		AWSLogs awsLogs = AWSLogsClientBuilder.standard().withRegion(Regions.US_EAST_1)
+				.withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
+		DescribeLogStreamsResult logStreams = awsLogs.describeLogStreams("**********");
+		String token = logStreams.getLogStreams().get(0).getUploadSequenceToken();
+		String nextToken = null;
+		do {
+			GetLogEventsRequest logEventRequest = new GetLogEventsRequest("***********");
+			logEventRequest.setNextToken(nextToken);
+			GetLogEventsResult logEventResult = awsLogs.getLogEvents(logEventRequest);
+			List<OutputLogEvent> logEvents = logEventResult.getEvents();
+			for (OutputLogEvent logEvent : logEvents) {
+				System.out.println(logEvent.getMessage());
+			}
+			nextToken = logEventResult.getNextForwardToken();
+		} while (nextToken != null);
+	}
+}
+
+=======
+Suggestion 6
+
+
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.io.*;
+import java.net.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
+class mango {
+    private static final Logger LOGGER = Logger.getLogger(mango.class.getName());
+
+    public static void main(String[] args) throws Exception {
+        LOGGER.setLevel(Level.INFO);
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the search term");
+        String searchTerm = sc.next();
+        System.out.println("Enter the log group name");
+        String logGroupName = sc.next();
+        System.out.println("Enter the log stream name");
+        String logStreamName = sc.next();
+        System.out.println("Enter the start time");
+        String startTime = sc.next();
+        System.out.println("Enter the end time");
+        String endTime = sc.next();
+        System.out.println("Enter the log level");
+        String logLevel = sc.next();
+        System.out.println("Enter the log level");
+        String logLevel2 = sc.next();
+        System.out.println("Enter the log level");
+        String logLevel3 = sc.next();
+        System.out.println("Enter the log level");
+        String logLevel4 = sc.next();
+        System.out.println("Enter the log level");
+        String logLevel5 = sc.next();
+        System.out.println("Enter the log level");
+        String logLevel6 = sc.next();
+        System.out.println("Enter the log level");
+        String logLevel7 = sc.next();
+        System.out.println("Enter the log level");
+        String logLevel8 = sc.next();
+        System.out.println("Enter the log level");
+        String logLevel9 = sc.next();
+        System.out.println("Enter the log level");
+        String logLevel10 = sc.next();
+        System.out.println("Enter the log level");
+        String logLevel11 = sc.next();
+        System.out.println("Enter the log level");
+        String logLevel12 = sc.next();
+        System.out.println("Enter the log level");
+        String logLevel13 = sc.next();
+        System.out.println("Enter the log level");
+        String logLevel14 = sc.next();
+        System.out.println("Enter the log level");
+        String logLevel15 = sc.next();
+        System.out.println("Enter the log level");
+        String
+
+=======
+Suggestion 7
+
+
+package com.amazonaws.samples;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.io.*;
+import com.amazonaws.auth.*;
+import com.amazonaws.services.logs.AWSLogs;
+import com.amazonaws.services.logs.AWSLogsClientBuilder;
+import com.amazonaws.services.logs.model.*;
+
+public class mango
+{
+    public static void main(String[] args)
+    {
+        // TODO Auto-generated method stub
+        final String USAGE = "\n" +
+                "To run this example, supply a log group name, stream name, and\n" +
+                "search term.\n" +
+                "\n" +
+                "Ex: GetLogEvents <log-group-name> <log-stream-name> <search-term>\n";
+
+        if (args.length != 3) {
+            System.out.println(USAGE);
+            System.exit(1);
+        }
+
+        String logGroupName = args[0];
+        String logStreamName = args[1];
+        String filterPattern = args[2];
+
+        // snippet-start:[logs.java2.get_log_events.main]
+        AWSLogs logs = AWSLogsClientBuilder.standard().withRegion("us-east-1").build();
+
+        long endTime = System.currentTimeMillis();
+        long startTime = endTime - 1000 * 60 * 10; // 10 minutes ago
+
+        GetLogEventsRequest request = new GetLogEventsRequest()
+                .withLogGroupName(logGroupName)
+                .withLogStreamName(logStreamName)
+                .withStartTime(startTime)
+                .withEndTime(endTime)
+                .withFilterPattern(filterPattern);
+
+        boolean done = false;
+        String nextToken = null;
+
+        while(!done) {
+            request.setNextToken(nextToken);
+
+            GetLogEventsResult response = logs.getLogEvents(request);
+
+            for(OutputLogEvent event : response.getEvents()) {
+                System.out.printf("[%d] %s: %s\n",
+                        event.getTimestamp(),
+                        event.getMessage(),
+                        event.getIngestionTime());
+            }
+
+            nextToken = response.getNextForwardToken();
+            done = nextToken == null;
+        }
+        // snippet-end:[logs.java2.get_log_events.main]
+    }
+}
+```
+I am getting the following error when I run the program:
+```
+Exception in thread "main" java.lang.NoClassDefFoundError: org/apache/http/ProtocolVersion
+    at com.amazonaws.http.HttpResponse.<init>(HttpResponse.java:67)
+    at com.amazonaws.http.HttpClient.execute(HttpClient.java:557)
+    at com.amazonaws.http.AmazonHttpClient
+
+=======
+Suggestion 8
+
+package com.amazonaws.samples;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.client.builder.AwsClientBuilder.EndpointConfiguration;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.logs.AWSLogs;
+import com.amazonaws.services.logs.AWSLogsClientBuilder;
+import com.amazonaws.services.logs.model.DescribeLogGroupsRequest;
+import com.amazonaws.services.logs.model.DescribeLogGroupsResult;
+import com.amazonaws.services.logs.model.FilterLogEventsRequest;
+import com.amazonaws.services.logs.model.FilterLogEventsResult;
+import com.amazonaws.services.logs.model.LogGroup;
+
+public class Mango {
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the search term to get logs");
+        String searchTerm = sc.next();
+        sc.close();
+        Regions region = Regions.US_EAST_1;
+        AWSCredentialsProvider credentialsProvider = new ProfileCredentialsProvider();
+        AWSLogsClientBuilder builder = AWSLogsClientBuilder.standard().withCredentials(credentialsProvider)
+                .withRegion(region);
+        AWSLogs client = builder.build();
+        DescribeLogGroupsRequest describeLogGroupsRequest = new DescribeLogGroupsRequest();
+        DescribeLogGroupsResult describeLogGroupsResult = client.describeLogGroups(describeLogGroupsRequest);
+        List<LogGroup> logGroups = describeLogGroupsResult.getLogGroups();
+        List<String> logGroupNames = new ArrayList<>();
+        for (LogGroup logGroup : logGroups) {
+            logGroupNames.add(logGroup.getLogGroupName());
+        }
+        for (String logGroupName : logGroupNames) {
+            FilterLogEventsRequest filterLogEventsRequest = new FilterLogEventsRequest();
+            filterLogEventsRequest.setLogGroupName(logGroupName);
+            filterLogEventsRequest.setFilterPattern(searchTerm);
+            FilterLogEventsResult filterLogEventsResult = client.filterLogEvents(filterLogEventsRequest);
+            System.out.println("The log group name is: " + logGroupName);
+            System.out.println("The log events are: " + filterLogEventsResult.getEvents());
+        }
+
+    }
+
+}
+
+=======
+Suggestion 9
+
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import com.amazonaws.services.logs.AWSLogs;
+import com.amazonaws.services.logs.AWSLogsClientBuilder;
+import com.amazonaws.services.logs.model.*;
+
+public class mango {
+
+    private static final String LOG_GROUP_NAME = "/aws/lambda/lambda_function_name";
+    private static final String SEARCH_TERM = "search term";
+    private static final int MAX_EVENTS = 10000;
+    private static final AWSCredentialsProvider CREDENTIALS_PROVIDER = new DefaultAWSCredentialsProviderChain();
+
+    public static void main(String[] args) throws IOException {
+        AWSLogs logs = AWSLogsClientBuilder.standard()
+                .withCredentials(CREDENTIALS_PROVIDER)
+                .withRegion("us-east-1")
+                .build();
+
+        long startTime = 0;
+        long endTime = 0;
+        try {
+            startTime = System.currentTimeMillis() - TimeUnit.MILLISECONDS.convert(60, TimeUnit.MINUTES);
+            endTime = System.currentTimeMillis();
+        } catch (Exception e) {
+            System.out.println("Error while parsing time");
+        }
+
+        FilterLogEventsRequest filterLogEventsRequest = new FilterLogEventsRequest()
+                .withLogGroupName(LOG_GROUP_NAME)
+                .withStartTime(startTime)
+                .withEndTime(endTime)
+                .withFilterPattern(SEARCH_TERM)
+                .withLimit(MAX_EVENTS);
+
+        List<OutputLogEvent> logEvents = new ArrayList<>();
+        String nextToken = null;
+        do {
+            filterLogEventsRequest.setNextToken(nextToken);
+            FilterLogEventsResult filterLogEventsResult = logs.filterLogEvents(filterLogEventsRequest);
+            logEvents.addAll(filterLogEventsResult.getEvents());
+            nextToken = filterLogEventsResult.getNextToken();
+        } while (nextToken != null);
+
+        Stream<OutputLogEvent> stream = logEvents.stream().filter(logEvent -> logEvent.getMessage().contains(SEARCH_TERM));
+        List<OutputLogEvent> list = stream.collect(Collectors.toList());
+        System.out.println("Number of events found: " + list.size());
+
+        List<String> logMessages = StreamSupport.stream(Spliterators.spliteratorUnknownSize(list.iterator(), Spliterator.ORDERED), false)
+                .map(OutputLogEvent::getMessage)
+                .collect(Collectors.toList());
+
+        logMessages.forEach(System.out::println);
+
+=======
+Suggestion 10
+
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.logs.AWSLogs;
+import com.amazonaws.services.logs.AWSLogsClientBuilder;
+import com.amazonaws.services.logs.model.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class mango {
+    private static String logGroupName = "my-log-group";
+    private static String logStreamName = "my-log-stream";
+    private static String searchTerm = "ERROR";
+    private static long startTime = 0;
+    private static long endTime = 0;
+
+    public static void main(String[] args) {
+        //get credentials from environment variables
+        AWSCredentials credentials = new BasicAWSCredentials(
+                System.getenv("AWS_ACCESS_KEY_ID"),
+                System.getenv("AWS_SECRET_ACCESS_KEY")
+        );
+
+        //create awslogs client
+        AWSLogs awsLogs = AWSLogsClientBuilder.standard()
+                .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                .withRegion(Regions.US_EAST_1)
+                .build();
+
+        //get log stream name
+        DescribeLogStreamsRequest describeLogStreamsRequest = new DescribeLogStreamsRequest(logGroupName);
+        DescribeLogStreamsResult describeLogStreamsResult = awsLogs.describeLogStreams(describeLogStreamsRequest);
+        List<LogStream> logStreams = describeLogStreamsResult.getLogStreams();
+        for (LogStream logStream : logStreams) {
+            if (logStream.getLogStreamName().equals(logStreamName)) {
+                logStreamName = logStream.getLogStreamName();
+                break;
+            }
+        }
+
+        //get log events
+        GetLogEventsRequest getLogEventsRequest = new GetLogEventsRequest(logGroupName, logStreamName);
+        getLogEventsRequest.setStartTime(startTime);
+        getLogEventsRequest.setEndTime(endTime);
+        GetLogEventsResult getLogEventsResult = awsLogs.getLogEvents(getLogEventsRequest);
+        List<OutputLogEvent> outputLogEvents = getLogEventsResult.getEvents();
+        List<OutputLogEvent> outputLogEventsFiltered = new ArrayList<>();
+        for (OutputLogEvent outputLogEvent : outputLogEvents) {
+            if (outputLogEvent.getMessage().contains(searchTerm)) {
+                outputLogEventsFiltered.add(outputLogEvent);
+            }
+        }
+
+        //print log events
+        for (OutputLogEvent outputLogEvent : outputLogEventsFiltered)
